@@ -38,7 +38,7 @@ function dR(arr) {
                 <h2>${item.name}</h2>
                 <p>${item.cuisine}</p>
                 <p>${item.difficulty}</p>
-                <p> ${item.rating}</p>
+                <p> ${item.ingredients}</p>
             </div>
         `;
 
