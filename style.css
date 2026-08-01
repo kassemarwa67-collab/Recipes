@@ -5,11 +5,12 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Flexbox layout to push footer to the bottom */
 body {
+    background-color: #f5f5f5;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #f5f5f5;
 }
 
 header {
@@ -32,13 +33,11 @@ header h1 {
     outline: none;
     border-radius: 8px;
     font-size: 16px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #recipes {
-    width: 90%;
-    max-width: 1200px;
-    margin: 30px auto;
+    width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
@@ -48,15 +47,16 @@ header h1 {
     background-color: white;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
+    border: none;
 }
 
 .card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .card-img-wrapper {
@@ -71,7 +71,7 @@ header h1 {
     object-fit: cover;
 }
 
-.badge {
+.badge-tag {
     position: absolute;
     top: 12px;
     right: 12px;
@@ -113,6 +113,7 @@ header h1 {
     line-height: 1.5;
 }
 
+/* Status Messages */
 .loading, .no-results, .error {
     grid-column: 1 / -1;
     text-align: center;
@@ -121,7 +122,17 @@ header h1 {
     color: #666;
 }
 
-/* Mobile Devices */
+/* Footer Styling */
+footer {
+    background-color: #212529;
+    color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+    margin-top: auto;
+}
+
+/* Responsive Mobile Screens */
 @media (max-width: 576px) {
     header {
         padding: 18px;
@@ -137,10 +148,6 @@ header h1 {
     }
 
     #recipes {
-        width: 92%;
         grid-template-columns: 1fr;
     }
-}
-footer {
-    background-color: #212529; color: #f8f9fa; padding: 20px 0; text-align: center; font-size: 14px; margin-top: auto;
 }

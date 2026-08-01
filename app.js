@@ -1,7 +1,7 @@
 const recipesContainer = document.querySelector("#recipes");
 const searchInput = document.querySelector("#search");
 
-// Fetch data using async / await
+// Fetch data safely using async / await
 async function getRecipes(url) {
     try {
         recipesContainer.innerHTML = `<div class="loading">Loading recipes... ⏳</div>`;
@@ -9,35 +9,34 @@ async function getRecipes(url) {
         const response = await fetch(url);
         
         if (!response.ok) {
-            throw new Error("Failed to fetch data from the server");
+            throw new Error("Server responded with an error");
         }
 
         const data = await response.json();
         displayRecipes(data.recipes);
 
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Error fetching recipes:", error);
         recipesContainer.innerHTML = `<div class="error">Oops! Something went wrong while loading recipes.</div>`;
     }
 }
 
-// Render cards in the DOM
+// Render recipe cards in the DOM
 function displayRecipes(recipesList) {
     if (!recipesList || recipesList.length === 0) {
         recipesContainer.innerHTML = `<div class="no-results">No recipes found matching your search 🔍</div>`;
         return;
     }
 
-    // Combine all cards before inserting to optimize performance
+    // Combine HTML strings for performance optimization
     const cardsHTML = recipesList.map(item => {
-        // Show only the first 3 ingredients
         const topIngredients = item.ingredients.slice(0, 3).join(", ") + (item.ingredients.length > 3 ? "..." : "");
 
         return `
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="${item.image}" alt="${item.name}">
-                    <span class="badge">${item.cuisine}</span>
+                    <img src="${item.image}" alt="${item.name}" loading="lazy">
+                    <span class="badge-tag">${item.cuisine}</span>
                 </div>
                 <div class="card-body">
                     <h2>${item.name}</h2>
@@ -55,7 +54,7 @@ function displayRecipes(recipesList) {
     recipesContainer.innerHTML = cardsHTML;
 }
 
-// Debounce function to limit API requests during typing
+// Debounce function to limit fast network calls during search input
 function debounce(func, delay = 300) {
     let timeoutId;
     return (...args) => {
@@ -64,7 +63,7 @@ function debounce(func, delay = 300) {
     };
 }
 
-// Handle real-time search input
+// Search Handler
 const handleSearch = debounce((e) => {
     const value = e.target.value.trim();
     const link = value 
@@ -74,7 +73,8 @@ const handleSearch = debounce((e) => {
     getRecipes(link);
 }, 300);
 
+// Attach event listener
 searchInput.addEventListener("input", handleSearch);
 
-// Initial load
+// Initial Load
 getRecipes("https://dummyjson.com/recipes");
